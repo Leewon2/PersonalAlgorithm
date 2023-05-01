@@ -49,6 +49,7 @@ public class Main {
 				if(arr[i][2]!='.') {
 					pretree(arr[i][2]);
 				}
+				break;
 			}
 		}
 		
@@ -65,6 +66,7 @@ public class Main {
 				if(arr[i][2]!='.') {
 					inordertree(arr[i][2]);
 				}
+				break;
 			}
 		}
 	}
@@ -79,6 +81,7 @@ public class Main {
 					posttree(arr[i][2]);
 				}
 				sb.append(root);
+				break;
 			}
 		}
 	}
