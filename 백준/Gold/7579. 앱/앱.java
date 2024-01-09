@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,12 +16,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         input();
-        int[][] dp = new int[N][100001];
+        int[][] dp = new int[N][10001];
         res = Integer.MAX_VALUE;
         for (int i = 0; i < N; i++) {
             int memory = arr[i][0];
             int cost = arr[i][1];
-            for (int j = 0; j <= 100000; j++) {
+            for (int j = 0; j <= 10000; j++) {
                 if(i==0){
                     if(j>=cost) dp[i][j] = memory;
                 }else{
