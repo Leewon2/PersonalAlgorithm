@@ -11,17 +11,18 @@ public class Main {
     static int N, M;
     static int[][] arr;
     static int res;
+    static int sum;
 
 
 
     public static void main(String[] args) throws IOException {
         input();
-        int[][] dp = new int[N][10001];
+        int[][] dp = new int[N][sum+1];
         res = Integer.MAX_VALUE;
         for (int i = 0; i < N; i++) {
             int memory = arr[i][0];
             int cost = arr[i][1];
-            for (int j = 0; j <= 10000; j++) {
+            for (int j = 0; j <= sum; j++) {
                 if(i==0){
                     if(j>=cost) dp[i][j] = memory;
                 }else{
@@ -47,8 +48,10 @@ public class Main {
             arr[i][0] = Integer.parseInt(st.nextToken());
         }
         st = new StringTokenizer(br.readLine());
+        sum=0;
         for (int i = 0; i < N; i++) {
             arr[i][1] = Integer.parseInt(st.nextToken());
+            sum+=arr[i][1];
         }
 
     }
