@@ -1,65 +1,45 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.Arrays;
 import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> {
+            if (o1.s == o2.s) {
+                return o1.e - o2.e;
+            }
+            return o1.s - o2.s;
+        });
+        for (int i = 0; i < n; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            pq.offer(new Node(s, e));
+        }
 
-	static int N;
+        PriorityQueue<Integer> pq2 = new PriorityQueue<>();
+        pq2.offer(pq.poll().e);
+        while (!pq.isEmpty()) {
+            if (pq.peek().s >= pq2.peek()) {
+                pq2.poll();
+            }
+            pq2.offer(pq.poll().e);
+        }
+        System.out.println(pq2.size());
 
-	public static void main(String[] args) throws Exception {
+    }
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    private static class Node {
+        int s;
+        int e;
 
-		N = Integer.parseInt(br.readLine());
-
-		Lecture[] lectures = new Lecture[N];
-		PriorityQueue<Integer> pq = new PriorityQueue<>();
-
-		for (int i = 0; i < N; i++) {
-			String[] sarr = br.readLine().split(" ");
-			int s = Integer.parseInt(sarr[0]);
-			int e = Integer.parseInt(sarr[1]);
-
-			lectures[i] = new Lecture(s, e);
-		}
-		Arrays.sort(lectures);
-
-		pq.offer(lectures[0].end);
-
-		for (int i = 1; i < N; i++) {
-
-			if (lectures[i].start >= pq.peek())
-				pq.poll();
-
-			pq.offer(lectures[i].end);
-		}
-
-		bw.write(pq.size() + "\n");
-		bw.flush();
-
-	}
-
-	static class Lecture implements Comparable<Lecture> {
-
-		int start, end;
-
-		Lecture(int start, int end) {
-			this.start = start;
-			this.end = end;
-		}
-
-		@Override
-		public int compareTo(Lecture o) {
-
-			if (start == o.start)
-				return end - o.end;
-
-			return start - o.start;
-		}
-	}
-
+        public Node(int s, int e) {
+            this.s = s;
+            this.e = e;
+        }
+    }
 }
