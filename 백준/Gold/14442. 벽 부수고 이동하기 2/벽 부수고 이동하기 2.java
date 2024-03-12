@@ -20,14 +20,13 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
         arr = new int[N][M];
-        visited = new boolean[N][M][K+1];
+        visited = new boolean[K+1][N][M];
         for (int i = 0; i < N; i++) {
             String str = br.readLine();
             for (int j = 0; j < M; j++) {
                 arr[i][j] = Character.getNumericValue(str.charAt(j));
             }
         }
-
 
         q = new LinkedList<>();
         q.offer(new Node(0, 0, 1,0));
@@ -46,24 +45,25 @@ public class Main {
             int cnt = poll.cnt;
             int wall = poll.wall;
             if(r==N-1 && c==M-1){
-                res = Math.min(res,cnt);
-                continue;
+                return cnt;
+//                res = Math.min(res,cnt);
+//                continue;
             }
             for (int i = 0; i < 4; i++) {
                 int nr = r+dr[i];
                 int nc = c+dc[i];
                 if(nr<0 || nr>=N || nc<0 || nc>=M) continue;
                 // 그냥 갈 수 있는 경우
-                if(arr[nr][nc]==0 && !visited[nr][nc][wall]){
+                if(arr[nr][nc]==0 && !visited[wall][nr][nc]){
                     q.offer(new Node(nr, nc, cnt + 1, wall));
-                    visited[nr][nc][wall] = true;
+                    visited[wall][nr][nc] = true;
                 }
                 // 벽인 경우
                 else{
                     // 갯수 다 안채웠으면 벽 깨고 이동
-                    if(wall<K && !visited[nr][nc][wall+1]){
+                    if(wall<K && !visited[wall+1][nr][nc]){
                         q.offer(new Node(nr, nc, cnt + 1, wall + 1));
-                        visited[nr][nc][wall+1] = true;
+                        visited[wall+1][nr][nc] = true;
                     }
                 }
             }
