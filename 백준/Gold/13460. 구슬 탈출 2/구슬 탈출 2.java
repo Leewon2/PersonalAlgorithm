@@ -14,6 +14,7 @@ public class Main {
     static boolean goalRed;
     static boolean goalBlue;
     static boolean inner;
+    static boolean[][][][] visited;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,6 +35,8 @@ public class Main {
                 }
             }
         }
+        visited = new boolean[N][M][N][M];
+
         inner = false;
         goalRed = false;
         goalBlue = false;
@@ -48,11 +51,16 @@ public class Main {
             RB poll = q.poll();
             Node red = poll.redLocation;
             Node blue = poll.blueLocation;
+            if(visited[red.r][red.c][blue.r][blue.c]) continue;
+            visited[red.r][red.c][blue.r][blue.c] = true;
             int cnt = poll.cnt;
             if (cnt >= 10) continue;
             for (int i = 0; i < 4; i++) {
                 RB rb = canGo(red, blue, cnt, i);
                 if (inner) {
+                    if (goalRed && !goalBlue) {
+                        return cnt+1;
+                    }
                     goalRed = false;
                     goalBlue = false;
                     inner = false;
@@ -120,13 +128,9 @@ public class Main {
         } else {
             newRedLocation = Move(red, dir, subArr, 1);
             newBlueLocation = Move(blue, dir, subArr, 0);
-
         }
 
-        if (goalRed && !goalBlue) {
-            System.out.println(cnt + 1);
-            System.exit(0);
-        }
+
 
 
         return new RB(newRedLocation, newBlueLocation, cnt + 1);
