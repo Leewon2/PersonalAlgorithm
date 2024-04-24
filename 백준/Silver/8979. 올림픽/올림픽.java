@@ -25,24 +25,33 @@ public class Main {
         });
         int[][] res = new int[N][2];
         int idx = 1;
+        boolean[] visited = new boolean[N];
         for (int i = 0; i < N; i++) {
-            if (i < N - 1) {
-                if (arr[i][1] == arr[i + 1][1] && arr[i][2] == arr[i + 1][2] && arr[i][2] == arr[i + 1][2]) {
-                    res[i][0] = arr[i][0];
-                    res[i][1] = idx;
-                    res[i + 1][0] = arr[i + 1][0];
-                    res[i + 1][1] = idx++;
-                    i++;
-                } else {
-                    res[i][0] = arr[i][0];
-                    res[i][1] = idx++;
-                }
-            } else {
-                res[i][0] = arr[i][0];
-                res[i][1] = idx++;
+            if (visited[i]) {
+                continue;
             }
+            visited[i] = true;
+            res[i][0] = arr[i][0];
+            res[i][1] = idx;
+
+            int j = i + 1;
+            int k = 1;
+            while (j < N) {
+                if (arr[i][1] == arr[j][1] && arr[i][2] == arr[j][2] && arr[i][2] == arr[j][2]) {
+                    res[j][0] = arr[j][0];
+                    res[j][1] = idx;
+                    visited[j] = true;
+                    k++;
+                    j++;
+                } else {
+                    break;
+                }
+            }
+            idx += k;
+
         }
         for (int i = 0; i < N; i++) {
+//            System.out.println("번호 : " + res[i][0] + " " + "등수 : " + res[i][1]);
             if (res[i][0] == K) {
                 System.out.println(res[i][1]);
                 break;
