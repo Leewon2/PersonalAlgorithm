@@ -37,7 +37,7 @@ public class Main {
             int j = i + 1;
             int k = 1;
             while (j < N) {
-                if (arr[i][1] == arr[j][1] && arr[i][2] == arr[j][2] && arr[i][2] == arr[j][2]) {
+                if (arr[i][1] == arr[j][1] && arr[i][2] == arr[j][2] && arr[i][3] == arr[j][3]) {
                     res[j][0] = arr[j][0];
                     res[j][1] = idx;
                     visited[j] = true;
