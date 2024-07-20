@@ -13,9 +13,7 @@ class Solution {
         PriorityQueue<Edge> pq = new PriorityQueue<>((o1,o2)->{
                 return o1.d-o2.d;
             });
-        while(cnt<land.length*land[0].length){
-            
-            
+        while(cnt<land.length*land[0].length){      
             while(!q.isEmpty()){
                 cnt++;
                 Node poll = q.poll();
@@ -35,7 +33,7 @@ class Solution {
                 }
             }
             if(cnt>=land.length*land[0].length) break;
-            // 전체 배열을 순회하면서, 다음 스타트 포인트 찾기
+
             while(!pq.isEmpty()){
                 Edge poll = pq.poll();
                 if(!visited[poll.r][poll.c]){
@@ -45,34 +43,6 @@ class Solution {
                     break;
                 }
             }
-            // Node peek = q.peek();
-            // System.out.println(ladder);
-            // System.out.println("sr : "+peek.r+" sc : "+peek.c);
-//             int startr=0;
-//             int startc=0;
-//             int minDist=Integer.MAX_VALUE;
-//             for(int r=0; r<land.length; r++){
-//                 for(int c=0; c<land[0].length; c++){
-//                     if(!visited[r][c]){
-//                         // 방문하지 않았고, 주위에 방문했던 친구가 있으면, 차이를 구한다.
-//                         for(int i=0; i<4; i++){
-//                             int nr = r+dr[i];
-//                             int nc = c+dc[i];
-//                             if(nr<0 || nc<0 || nr>=land.length || nc>=land[0].length || !visited[nr][nc]) continue;
-//                             if(minDist>Math.abs(land[nr][nc]-land[r][c])){
-//                                 startr=r;
-//                                 startc=c;
-//                                 minDist=Math.abs(land[nr][nc]-land[r][c]);
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
- 
-//             q.offer(new Node(startr,startc));
-//             visited[startr][startc]=true;
-//             ladder+=minDist;
-            
         }
         
         return ladder;
