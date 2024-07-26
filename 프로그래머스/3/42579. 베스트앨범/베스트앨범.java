@@ -4,7 +4,7 @@ class Solution {
         Queue<Integer> q = new LinkedList<>();
         Map<String,Node> map = new HashMap<>();
         Map<String,Boolean> use = new HashMap<>();
-        int cnt=0;
+        // int cnt=0;
         for(int i=0; i<genres.length; i++){
             Playing newPlaying = new Playing(plays[i],i);
             if(map.get(genres[i])==null){
@@ -14,7 +14,7 @@ class Solution {
                 map.put(genres[i], new Node(plays[i],l));
             }else{
                 if(!use.get(genres[i])){
-                    cnt+=2;
+                    // cnt+=2;
                     use.put(genres[i],true);
                 }
                 
@@ -30,18 +30,18 @@ class Solution {
         for(String k : map.keySet()){
             pq.offer(map.get(k));
         }
-        if(pq.size() != cnt/2){
-            cnt+=(pq.size()-cnt/2);
-        }
-        int idx=0;
-        int[] answer = new int[cnt];
+        // if(pq.size() != cnt/2){
+        //     cnt+=(pq.size()-cnt/2);
+        // }
+        // int idx=0;
+        // int[] answer = new int[cnt];
         PriorityQueue<Playing> playPq = new PriorityQueue<>((o1,o2)->{
             if(o1.playCnt!=o2.playCnt){
                 return o2.playCnt-o1.playCnt;
             }
             return o1.idx-o2.idx;
         });
-        
+        List<Integer> list = new ArrayList<>();
         while(!pq.isEmpty()){
             Node poll = pq.poll();
             for(int i=0; i<poll.list.size(); i++){
@@ -50,11 +50,16 @@ class Solution {
             int id=0;
             while(!playPq.isEmpty()){
                 Playing p = playPq.poll();
-                answer[idx++] = p.idx;
+                list.add(p.idx);
+                // answer[idx++] = p.idx;
                 id++;
                 if(id==2) break;
             }
             playPq.clear();
+        }
+        int[] answer = new int[list.size()];
+        for(int i=0; i<list.size(); i++){
+            answer[i] = list.get(i);
         }
  
         
