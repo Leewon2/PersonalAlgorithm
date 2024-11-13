@@ -5,7 +5,7 @@ class Solution {
     }
     private int bfs(int x, int y, int n){
         Queue<int[]> q = new LinkedList<>();
-        boolean[] use = new boolean[3000001];
+        boolean[] use = new boolean[1000001];
         q.offer(new int[] {x,0});
         while(!q.isEmpty()){
             int[] poll = q.poll();
