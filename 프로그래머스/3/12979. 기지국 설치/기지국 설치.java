@@ -13,13 +13,12 @@ class Solution {
             right = stations[i]+w;
             if(left<=0 || now>=left) now = right;
             else{
-                int cnt = (left - now -1 )%len==0 ? (left-now-1)/len : (left-now-1)/len+1;
+                int cnt = (left-now-1)%len==0 ? (left-now-1)/len : (left-now-1)/len+1;
                 answer += cnt;
                 now = right;
             }
         }
-        if(right<n){
-            // System.out.println(right);
+        if(now<n){
             int cnt = (n - now)%len==0 ? (n-now)/len : (n-now)/len+1;
             answer += cnt;
         }
