@@ -2,12 +2,14 @@ import java.util.*;
 class Solution {
     final int[] dr = {1,0,-1,0};
     final int[] dc = {0,1,0,-1};
+    int[][] arr;
+    boolean[][] visited;
+    int r;
+    int c;
     public int solution(String[] maps) {
         int answer = 0;
-        int r = maps.length;
-        int c = maps[0].length();
-        int[][] arr = new int[r][c];
-        boolean[][] visited = new boolean[r][c];
+        r = maps.length;
+        c = maps[0].length();
         int startR=0, startC=0, labberR=0, labberC=0, endR=0, endC=0;
         for(int i=0; i<r; i++){
             for(int j=0; j<c; j++){
@@ -20,33 +22,19 @@ class Solution {
                 }
             }
         }
-        Queue<Node> q = new LinkedList<>();
-        q.offer(new Node(startR,startC));
-        outer : while(!q.isEmpty()){
-            Node poll = q.poll();
-            if(poll.r==labberR && poll.c==labberC){
-                answer+=arr[poll.r][poll.c];
-                break outer;
-            }
-            if(visited[poll.r][poll.c]) continue;
-            visited[poll.r][poll.c]=true;
-            for(int i=0; i<4; i++){
-                int nr = poll.r+dr[i];
-                int nc = poll.c+dc[i];
-                if(nr<0||nc<0||nr>=r||nc>=c||visited[nr][nc]||maps[nr].charAt(nc)=='X') continue;
-                q.offer(new Node(nr,nc));
-                arr[nr][nc]=arr[poll.r][poll.c]+1;
-            }
-        }
-        if(arr[labberR][labberC]==0) return -1;
+        int toLabber = bfs(startR,startC,labberR,labberC,maps);
+        int toEnd = bfs(labberR,labberC,endR,endC,maps);
+        if(toLabber==0 || toEnd==0) return -1;
+        return toLabber+toEnd;
+    }
+    public int bfs(int sR, int sC, int targetR, int targetC, String[] maps){
         arr = new int[r][c];
         visited = new boolean[r][c];
-        q.clear();
-        q.offer(new Node(labberR,labberC));
+        Queue<Node> q = new LinkedList<>();
+        q.offer(new Node(sR,sC));
         outer : while(!q.isEmpty()){
             Node poll = q.poll();
-            if(poll.r==endR && poll.c==endC){
-                answer+=arr[poll.r][poll.c];
+            if(poll.r==targetR && poll.c==targetC){
                 break outer;
             }
             if(visited[poll.r][poll.c]) continue;
@@ -59,8 +47,7 @@ class Solution {
                 arr[nr][nc]=arr[poll.r][poll.c]+1;
             }
         }
-        if(arr[endR][endC]==0) return -1;
-        return answer;
+        return arr[targetR][targetC];
     }
     private class Node{
         int r;
