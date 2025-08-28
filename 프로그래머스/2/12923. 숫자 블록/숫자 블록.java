@@ -12,7 +12,6 @@ class Solution {
             }
             int max=1;
             for(int j=2; j*j<=i; j++){
-                if(j>10000000) break;
                 if(i%j==0){
                     max=Math.max(max,j);
                     if(j != i/j && i/j<=10000000){
