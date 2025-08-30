@@ -55,7 +55,7 @@ class Solution {
             if(arr1[i]==0 && arr2[i]==0) continue;
             if(arr1[i]>arr2[i])
                 cnt+=10-i;
-            else cnt-=(10-i);
+            else cnt-=10-i;
         }
         return cnt;
     }
