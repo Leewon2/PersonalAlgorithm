@@ -32,13 +32,4 @@ class Solution {
         
         return -1;
     }
-    
-    private class Food{
-        int idx;
-        int time;
-        public Food(int idx, int time){
-            this.idx=idx;
-            this.time=time;
-        }
-    }
 }
