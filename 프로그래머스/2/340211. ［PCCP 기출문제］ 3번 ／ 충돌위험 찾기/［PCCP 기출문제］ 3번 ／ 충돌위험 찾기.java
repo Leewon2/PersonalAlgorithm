@@ -42,24 +42,17 @@ class Solution {
             }
         }
 
-        // for(boolean[] a : arr){
-        //     for(boolean b : a){
-        //         if(b) {
-        //             answer++;
-        //         }
-        //     }
-        // }
         for (List<Integer> times : map.values()) {
-        Collections.sort(times); 
-        int i = 0;
-        while (i < times.size()) {
-            int t = times.get(i);
-            int j = i + 1;
-            while (j < times.size() && times.get(j) == t) j++;
-            if (j - i >= 2) answer++;
-            i = j;
+            Collections.sort(times); 
+            int i = 0;
+            while (i < times.size()) {
+                int t = times.get(i);
+                int j = i + 1;
+                while (j < times.size() && times.get(j) == t) j++;
+                if (j - i >= 2) answer++;
+                i = j;
+            }
         }
-    }
         return answer;
     }
     
