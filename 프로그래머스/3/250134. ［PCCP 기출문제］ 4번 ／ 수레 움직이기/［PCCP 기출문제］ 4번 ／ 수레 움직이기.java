@@ -8,17 +8,13 @@ class Solution {
     boolean[][] blueVisited;
     int[][] arr;
     public int solution(int[][] maze) {
-        int answer = 0;
         max = Integer.MAX_VALUE;
         r = maze.length;
         c = maze[0].length;
         redVisited = new boolean[r][c];
         blueVisited = new boolean[r][c];
         arr = new int[r][c];
-        int redStartR=0;
-        int redStartC=0;
-        int blueStartR=0;
-        int blueStartC=0;
+        int redStartR=0, redStartC=0, blueStartR=0, blueStartC=0;
         for(int i=0; i<r; i++){
             for(int j=0; j<c; j++){
                 if(maze[i][j]==1){
@@ -38,70 +34,54 @@ class Solution {
         return max==Integer.MAX_VALUE ? 0 : max;
     }
     
+    private void move(int moveR, int moveC, int fixR, int fixC, int cnt, boolean[][] visited, boolean color){
+        for(int d=0; d<4; d++){
+            int nr = moveR+dr[d];
+            int nc = moveC+dc[d];
+            if(nr<0 || nr>=r || nc<0 || nc>=c || arr[nr][nc]==5 || visited[nr][nc]) continue;
+            if(nr==fixR && nc==fixC) continue;
+            visited[nr][nc]=true;
+            if(color) dfs(fixR,fixC,nr, nc, cnt+1);
+            else dfs(nr, nc, fixR, fixC, cnt+1);
+            visited[nr][nc]=false;
+        }
+    }
+    
+    private void movement(int fMoveR, int fMoveC, int sMoveR, int sMoveC, int cnt, boolean[][] fV, boolean[][] sV, boolean color){
+        for(int d=0; d<4; d++){
+            int nr = fMoveR+dr[d];
+            int nc = fMoveC+dc[d];
+            if(nr<0 || nr>=r || nc<0 || nc>=c || arr[nr][nc]==5 || fV[nr][nc]) continue;
+            if(nr==sMoveR && nc==sMoveC) continue;
+            for(int dd=0 ;dd<4; dd++){
+                int bnr = sMoveR+dr[dd];
+                int bnc = sMoveC+dc[dd];
+                if(bnr<0 || bnr>=r || bnc<0 || bnc>=c || arr[bnr][bnc]==5 || sV[bnr][bnc]) continue;
+                if(nr==bnr && nc==bnc) continue;
+                fV[nr][nc]=true;
+                sV[bnr][bnc]=true;
+                if(color) dfs(nr,nc,bnr, bnc,cnt+1);
+                else dfs(bnr,bnc,nr, nc,cnt+1);
+                fV[nr][nc]=false;
+                sV[bnr][bnc]=false;
+            }
+        }
+    }
+    
     // 빨 - 파, 파 - 빨 둘 다 확인
     private void dfs(int redR, int redC, int blueR, int blueC, int cnt){
         if(arr[redR][redC]==3 && arr[blueR][blueC]==4){
             max = Math.min(max, cnt);
             return;
         }
-        
         if(arr[redR][redC]==3){
-            for(int d=0; d<4; d++){
-                int nr = blueR+dr[d];
-                int nc = blueC+dc[d];
-                if(nr<0 || nr>=r || nc<0 || nc>=c || arr[nr][nc]==5 || blueVisited[nr][nc]) continue;
-                if(nr==redR && nc==redC) continue;
-                blueVisited[nr][nc]=true;
-                dfs(redR,redC,nr, nc, cnt+1);
-                blueVisited[nr][nc]=false;
-            }
+            move(blueR, blueC, redR, redC, cnt, blueVisited,true);
         }else if(arr[blueR][blueC]==4){
-            for(int d=0; d<4; d++){
-                int nr = redR+dr[d];
-                int nc = redC+dc[d];
-                if(nr<0 || nr>=r || nc<0 || nc>=c || arr[nr][nc]==5 || redVisited[nr][nc]) continue;
-                if(nr==blueR && nc==blueC) continue;
-                redVisited[nr][nc]=true;
-                dfs(nr,nc,blueR, blueC, cnt+1);
-                redVisited[nr][nc]=false;
-            }
+            move(redR, redC, blueR, blueC, cnt, redVisited,false);
         }
-        
         else{
-            for(int d=0; d<4; d++){
-                int nr = redR+dr[d];
-                int nc = redC+dc[d];
-                if(nr<0 || nr>=r || nc<0 || nc>=c || arr[nr][nc]==5 || redVisited[nr][nc]) continue;
-                if(nr==blueR && nc==blueC) continue;
-                for(int dd=0 ;dd<4; dd++){
-                    int bnr = blueR+dr[dd];
-                    int bnc = blueC+dc[dd];
-                    if(bnr<0 || bnr>=r || bnc<0 || bnc>=c || arr[bnr][bnc]==5 || blueVisited[bnr][bnc]) continue;
-                    if(nr==bnr && nc==bnc) continue;
-                    redVisited[nr][nc]=true;
-                    blueVisited[bnr][bnc]=true;
-                    dfs(nr,nc,bnr, bnc,cnt+1);    
-                    redVisited[nr][nc]=false;
-                    blueVisited[bnr][bnc]=false;
-                }
-            }
-            for(int d=0; d<4; d++){
-                int nr = blueR+dr[d];
-                int nc = blueC+dc[d];
-                if(nr<0 || nr>=r || nc<0 || nc>=c || arr[nr][nc]==5 || blueVisited[nr][nc]) continue;
-                if(nr==redR && nc==redC) continue;
-                for(int dd=0 ;dd<4; dd++){
-                    int bnr = redR+dr[dd];
-                    int bnc = redC+dc[dd];
-                    if(bnr<0 || bnr>=r || bnc<0 || bnc>=c || arr[bnr][bnc]==5 || redVisited[bnr][bnc]) continue;
-                    if(nr==bnr && nc==bnc) continue;
-                    blueVisited[nr][nc]=true;
-                    redVisited[bnr][bnc]=true;
-                    dfs(bnr,bnc,nr, nc,cnt+1);    
-                    blueVisited[nr][nc]=false;
-                    redVisited[bnr][bnc]=false;
-                }
-            }
+            movement(redR, redC, blueR, blueC, cnt, redVisited, blueVisited, true);
+            movement(blueR, blueC, redR, redC, cnt, blueVisited, redVisited, false);
         }
     }
 }
