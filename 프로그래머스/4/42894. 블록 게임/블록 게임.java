@@ -63,35 +63,30 @@ class Solution {
     private void checkValue(int x, int y, int idx, int num){
         if(num==1){
             if(arr[x][y+1]==0 && arr[x][y+2]==0 && drop(x,y+1) && drop(x,y+2)){
-                check = true;                
-                answer++;
-                deleteIdx(x, y, idx);
+                run(x,y,idx);
             }
         }else if(num==2){
             if(arr[x][y-1]==0 && arr[x+1][y-1]==0 && drop(x+1,y-1)){
-                check = true;
-                answer++;
-                deleteIdx(x, y, idx);
+                run(x,y,idx);
             }
         }else if(num==3){
             if(arr[x][y+1]==0 && arr[x+1][y+1]==0 && drop(x+1,y+1)){
-                check = true;
-                answer++;
-                deleteIdx(x, y, idx);
+                run(x,y,idx);
             }
         }else if(num==4){
             if(arr[x][y-1]==0 && arr[x][y-2]==0 && drop(x,y-1) && drop(x,y-2)){
-                check = true;
-                answer++;
-                deleteIdx(x, y, idx);
+                run(x,y,idx);
             }
         }else if(num==5){
             if(arr[x][y-1]==0 && arr[x][y+1]==0 && drop(x,y-1) && drop(x,y+1)){
-                check = true;
-                answer++;
-                deleteIdx(x, y, idx);
+                run(x,y,idx);
             }
         }
+    }
+    private void run(int x, int y, int idx){
+        check = true;
+        answer++;
+        deleteIdx(x, y, idx);
     }
     
     
